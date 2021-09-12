@@ -1,0 +1,30 @@
+.app {
+  text-align: center;
+}
+
+.add-image {
+  margin: 1rem auto;
+  width: 25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.add-image__input {
+  align-self: flex-start;
+  margin: 0.3rem 0 0 0.5rem;
+}
+
+.add-image__submit {
+  margin: 0.3rem 0 0 0;
+}
+
+.app-header {
+  font-size: 2rem;
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
