@@ -1,0 +1,8 @@
+{
+  "name": "shopify-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jacqlynb/image-repository",
+  "author": "jacqlynb <jacqlyn.bender@gmail.com>",
+  "license": "MIT"
+}
