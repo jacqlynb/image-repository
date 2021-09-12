@@ -6,8 +6,12 @@ const port = 8080;
 const app = express();
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('hello world');
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'test',
+  charset: 'utf8',
 });
 
 // add image
@@ -17,7 +21,9 @@ app.post('/image', (req, res) => {
 
 // search for image
 app.get('/image', (req, res) => {
-  //TODO
+  connection.query('SELECT * FROM images', (error, results) => {
+    error ? res.send(error) : res.send(results[0]);
+  });
 });
 
 app.listen(port, () => console.log(`listening on port ${port}`));
