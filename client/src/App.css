@@ -28,3 +28,26 @@
   justify-content: center;
   color: white;
 }
+
+img {
+  max-width: 15rem;
+  margin: 1rem;
+}
+
+.image {
+  display: flex;
+  flex-direction: column;
+  max-width: 15rem;
+}
+
+.image__title {
+  margin: 0;
+}
+
+.images {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
