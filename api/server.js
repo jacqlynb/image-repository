@@ -1,43 +1,78 @@
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql');
+const connection = require('./config/mysql-config.js');
 const port = 8080;
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'test',
-  charset: 'utf8',
-});
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// add image
-app.post('/image', (req, res) => {
-  const { url, title, tags } = req.body;
-  connection.query(
-    `INSERT INTO images (image_url, image_title, image_labels) VALUES("${url}", "${title}", "${tags}")`,
-    (error, results) => {
-      if (error) {
-        res.status(500);
-        res.json();
-      } else {
-        res.status(201);
-        res.json();
-      }
-    }
-  );
-});
-
-// search for image
 app.get('/image', (req, res) => {
-  connection.query('SELECT * FROM images', (error, results) => {
-    error ? res.send(error) : res.send(results);
+  const labels = req.query ? req.query.labels : '';
+  const q = getQuery(labels);
+  connection.query(q, (error, results) => {
+    error
+      ? res.send(error)
+      : res.send(labels ? sortResults(results, labels) : results);
   });
 });
+
+function getQuery(labels) {
+  if (labels) {
+    const labelArray = labels.split(',');
+    const labelClause = getLabelClause(labelArray);
+    return `SELECT image_url, title, labels, author, date_display 
+            FROM images 
+            WHERE ${labelClause} 
+            LIMIT 100`;
+  } else {
+    return `SELECT image_url, title, author, date_display 
+            FROM images 
+            LIMIT 100`;
+  }
+}
+
+function getLabelClause(labels) {
+  const labelBaseClause = `labels LIKE '%${labels[0].trim()}:%'`;
+  return labels.length === 1
+    ? labelBaseClause
+    : labelBaseClause +
+        [...labels]
+          .slice(1)
+          .map((label) => {
+            return ` AND labels LIKE '%${label.trim()}:%'`;
+          })
+          .join('');
+}
+
+function parseLabels(labelsStr) {
+  return labelsStr.split(',').map((labelWithConfidenceScore) => {
+    const [label, confidenceScore] = labelWithConfidenceScore.split(':');
+    return { label, confidenceScore };
+  });
+}
+
+function sortResults(results, userLabels) {
+  return results
+    .map((result) => {
+      const labelsFiltered = parseLabels(result.labels).filter(({ label }) =>
+        userLabels.includes(label.toLowerCase())
+      );
+      return { ...result, labels_filtered: labelsFiltered };
+    })
+    .sort(
+      (firstResult, secondResult) =>
+        calculateConfidenceScore(secondResult.labels_filtered) -
+        calculateConfidenceScore(firstResult.labels_filtered)
+    );
+}
+
+function calculateConfidenceScore(labels) {
+  return labels.reduce(
+    (acc, curr) => acc + parseFloat(curr.confidenceScore),
+    0
+  );
+}
 
 app.listen(port, () => console.log(`listening on port ${port}`));
 

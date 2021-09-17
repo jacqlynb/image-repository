@@ -18,25 +18,18 @@ export function App() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const data = {
-      url: event.target.url.value,
-      title: event.target.title.value,
-      tags: event.target.tags.value,
-    };
+    const labels = event.target.tags.value;
 
     try {
-      await fetch('http://localhost:8080/image', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://localhost:8080/image?labels=${labels}`
+      );
+      const imageData = await response.json();
+      setImages(imageData);
     } catch (error) {
       console.log(error);
     }
     formRef.current.reset();
-    fetchImages();
   }
 
   const imageMarkup = images
@@ -44,25 +37,31 @@ export function App() {
         return (
           <div className="image">
             <img src={image.image_url} />
-            <p className="image__title">{image.image_title}</p>
+            <p className="image__title">{formatImageTitle(image)}</p>
           </div>
         );
       })
     : null;
 
+  function formatImageTitle(image) {
+    const { title, author, date_display: date } = image;
+    return `${title ? title : 'Untitled'} 
+           (${author ? author : 'unknown'}${date ? ', ' + date : ''})`;
+  }
+
   return (
     <div className="app">
       <header className="app-header">Image Repository</header>
       <form className="add-image" ref={formRef} onSubmit={handleSubmit}>
-        <p>Add image</p>
-        <label className="add-image__label">
+        <p>Search images</p>
+        {/* <label className="add-image__label">
           Url:
           <input type="text" name="url" className="add-image__input" />
         </label>
         <label className="add-image__label">
           Title:
           <input type="text" name="title" className="add-image__input" />
-        </label>
+        </label> */}
         <label className="add-image__label">
           Tags (separated by comma):
           <input
