@@ -1,10 +1,13 @@
 const mysql = require('mysql');
+require('dotenv').config();
+
+const dbName = process.env.NODE_ENV === 'test' ? 'test' : 'image_repository';
 
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'test',
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: dbName,
   charset: 'utf8',
 });
 
