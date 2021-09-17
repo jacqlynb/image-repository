@@ -6,8 +6,9 @@
   "author": "jacqlynb <jacqlyn.bender@gmail.com>",
   "license": "MIT",
   "scripts" : {
-    "start": "nodemon server.js",
-    "test": "NODE_ENV=test && jest"
+    "start": "nodemon -r dotenv/config server.js",
+    "test": "NODE_ENV=test jest --setupFiles dotenv/config",
+    "seed": "node -r dotenv/config scripts/seed-images.js"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.31.0",

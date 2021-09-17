@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-require('dotenv').config();
 
 const dbName = process.env.NODE_ENV === 'test' ? 'test' : 'image_repository';
 
