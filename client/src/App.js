@@ -18,7 +18,7 @@ export function App() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const labels = event.target.tags.value;
+    const labels = event.target.labels.value;
 
     try {
       const response = await fetch(
@@ -32,8 +32,9 @@ export function App() {
     formRef.current.reset();
   }
 
-  const imageMarkup = images
-    ? images.map((image) => {
+  const imageMarkup =
+    images && images.length > 0 ? (
+      images.map((image) => {
         return (
           <div className="image">
             <img src={image.image_url} />
@@ -41,7 +42,9 @@ export function App() {
           </div>
         );
       })
-    : null;
+    ) : (
+      <p className="image--no-results">No results found</p>
+    );
 
   function formatImageTitle(image) {
     const { title, author, date_display: date } = image;
@@ -51,28 +54,30 @@ export function App() {
 
   return (
     <div className="app">
-      <header className="app-header">Image Repository</header>
-      <form className="add-image" ref={formRef} onSubmit={handleSubmit}>
-        <p>Search images</p>
-        {/* <label className="add-image__label">
-          Url:
-          <input type="text" name="url" className="add-image__input" />
-        </label>
-        <label className="add-image__label">
-          Title:
-          <input type="text" name="title" className="add-image__input" />
-        </label> */}
-        <label className="add-image__label">
-          Tags (separated by comma):
+      <header className="app__header">Image Repository</header>
+      <p className="app__description">
+        Search over 20,000 art images by content labels
+      </p>
+      <form className="search-form" ref={formRef} onSubmit={handleSubmit}>
+        <label className="search-form__label">
+          Labels:
           <input
             type="text"
-            name="tags"
-            placeholder="e.g. person, flower, chair"
-            className="add-image__input"
+            name="labels"
+            autoComplete="off"
+            className="search-form__input"
           />
         </label>
-        <input type="submit" value="submit" className="add-image__submit" />
+        <input type="submit" value="search" className="search-form__submit" />
       </form>
+      <p className="search__instructions">
+        Enter comma separated values, for example:
+      </p>
+      <div className="search__examples">
+        <p className="search__example">tree</p>
+        <p className="search__example">painting, mountain</p>
+        <p className="search__example">building, arch, column</p>
+      </div>
       <div className="images">{imageMarkup}</div>
     </div>
   );

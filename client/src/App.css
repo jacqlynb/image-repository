@@ -1,32 +1,60 @@
 .app {
   text-align: center;
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-.add-image {
-  margin: 1rem auto;
-  width: 25rem;
+.search-form {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.add-image__input {
-  align-self: flex-start;
-  margin: 0.3rem 0 0 0.5rem;
-}
-
-.add-image__submit {
-  margin: 0.3rem 0 0 0;
-}
-
-.app-header {
-  font-size: 2rem;
-  background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  margin-top: 2rem;
+}
+
+.search-form__input {
+  margin: 0.3rem 0.3rem 0 0.5rem;
+}
+
+.search-form__submit {
+  margin: 0.3rem 0 0 0;
+  background-color: rgb(80, 92, 116);
+  border: 2px solid rgb(80, 92, 116);
+  border-radius: 0.25rem;
   color: white;
+}
+
+.app__header {
+  font-family: 'Frank Ruhl Libre', 'Roboto Mono', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 3.5rem;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  color: black;
+}
+
+.app__description {
+  font-family: 'Frank Ruhl Libre', 'Roboto Mono', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  color: gray;
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: lighter;
+}
+
+.search__instructions {
+  margin: 2rem 0 0 0;
+}
+
+.search__examples {
+  margin-bottom: 1rem;
+}
+
+.search__example {
+  margin: 0.25rem;
+  font-style: italic;
+  color: gray;
 }
 
 img {
@@ -40,13 +68,19 @@ img {
   max-width: 15rem;
 }
 
+.image--no-results {
+  font-family: 'Frank Ruhl Libre', 'Roboto Mono', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 2em;
+}
+
 .image__title {
   margin: 0;
 }
 
 .images {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
