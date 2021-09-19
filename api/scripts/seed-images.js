@@ -10,10 +10,10 @@ const {
 const connection = require('../config/mysql-config.js');
 const awsConfig = require('../config/aws-config.js');
 
-const IMAGE_DIRECTORY =
-  '/Users/jacqlyn/Downloads/artic-api-data/json/artworks/';
+const IMAGE_DIRECTORY = process.env.IMAGE_DIRECTORY;
 const BASE_URL = 'https://www.artic.edu/iiif/2/';
 const URL_SUFFIX = '/full/843,/0/default.jpg';
+const MAX_IMAGES = 10000;
 
 const client = new RekognitionClient(awsConfig);
 
@@ -28,7 +28,7 @@ async function run() {
 }
 
 async function readFiles(fileNames) {
-  for (let i = 0; i < fileNames.length; i++) {
+  for (let i = 0; i < MAX_IMAGES; i++) {
     try {
       // get data
       const rawData = await fsPromises.readFile(IMAGE_DIRECTORY + fileNames[i]);
