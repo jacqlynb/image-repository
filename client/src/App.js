@@ -10,7 +10,7 @@ export function App() {
   }, []);
 
   async function fetchImages() {
-    const response = await fetch('http://localhost:8080/image');
+    const response = await fetch('/image');
     const imageData = await response.json();
     setImages(imageData);
   }
@@ -21,9 +21,7 @@ export function App() {
     const labels = event.target.labels.value;
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/image?labels=${labels}`
-      );
+      const response = await fetch(`/image?labels=${labels}`);
       const imageData = await response.json();
       setImages(imageData);
     } catch (error) {
